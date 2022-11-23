@@ -103,6 +103,25 @@ Security models seek to formalise the idea that a cipher is “good”
 
 #
 
+## Public key encryption and trapdoor one-way permutations
+Systems that use pairs of related keys. Each key pair consists of a public key and a corresponding private key. In a public-key encryption system, anyone with a public key can encrypt a message, yielding a ciphertext, but only those who know the corresponding private key can decrypt the ciphertext to obtain the original message.
+
+[**Trapdoor one-way permutation**](https://en.wikipedia.org/wiki/Trapdoor_function) -> This is a computation that anyone can perform, but which can be reversed only by someone who knows a trapdoor such as a secret key. (like a hash function should look random and non reversable unless you know the Private Key)
+
+#
+
+## Digital signatures
+The basic idea is that a signature on a message can be created by only one principal, but checked by anyone. It can thus perform the same function in the electronic world that ordinary signatures do in the world of paper.
+
+Signature schemes, too, can be deterministic or randomised: in the first, computing a signature on a message will always give the same result and in the second, it will give a different result.
+
+Formally, a signature scheme, **like a public key encryption scheme**, has a keypair generation function which given a random input  will return two keys,  (the private signing key) and  (the public signature verification key).
+
+```
+In the general case we do not need message recovery; the message to be signed may be of arbitrary length, so we first pass it through a hash function and then sign the hash value. We need the hash function to be not just one-way, but also collision resistant.
+```
+
+#
 ## Theoretical Security vs Pratical Security
 
 
@@ -135,8 +154,67 @@ The normal engineering practice is to have not just a key but also a **seed** (a
 
 
 
+#
 
-# 
+## Symmetric crypto algorithms
+
+* ### SP-networks 
+* ### Advanced Encryption Standard (AES)
+* ### Feistel ciphers
+* ### Data Encryption Standard (DES)
+
+### SP Networks -> [Computerphile Video](https://www.youtube.com/watch?v=DLjzI5dX8jc)
+A series of linked mathematical operations used in block cipher algorithms 
+
+Building Block of most Symetric Encryption today
+
+<img src="images/SP-Network.png">
+
+
+Such a network takes a block of the plaintext and the key as inputs, and applies several alternating rounds or layers of substitution boxes (S-boxes) and permutation boxes (P-boxes) to produce the ciphertext block. The S-boxes and P-boxes transform (sub-)blocks of input bits into output bits. It is common for these transformations to be operations that are efficient to perform in hardware, such as exclusive or (XOR) and bitwise rotation. The key is introduced in each round, usually in the form of "round keys" derived from it. (In some designs, the S-boxes themselves depend on the key.)
+
+Decryption is done by simply reversing the process (using the inverses of the S-boxes and P-boxes and applying the round keys in reversed order).
+
+
+### AES (Advanced Encryption Standart) -> [Computerphile Video](https://www.youtube.com/watch?v=O4xNJsjtN6E)
+
+It is an SP-network; in order to specify it, we need to fix the S-boxes, the linear transformation between the rounds, and the way in which the key is added into the computation.
+
+
+AES is actually a standart, soo rounds are implement in hardware itself, witch is much faster and makes sure no one gets the algorithm wrong as well
+
+
+
+### Feistel networks [Computerphile Video](https://www.youtube.com/watch?v=FGhj3CGxl8I)
+
+<img src="images/FeistelNetwok.png">
+
+The input is split up into two blocks, the left half and the right half. A round function  of the left half is computed and combined with the right half using exclusive-or (binary addition without carry), though in some Feistel ciphers addition with carry is also used. Then, a function  of the right half is computed and combined with the left half, and so on. Finally (if the number of rounds is even) the left half and right half are swapped.
+
+### Data Encryption Standart (DES)
+
+The Data Encryption Standard is a symmetric-key algorithm for the encryption of digital data. Although its short key length of 56 bits makes it too insecure for modern applications, it has been highly influential in the advancement of cryptography.
+This cipher has been superseded by the Advanced Encryption Standard (AES).
+
+<img src="images/DES.png">
+
+#
+
+## How not to use a block cipher
+
+The next Image shows what happens to a cartoon image when encrypted using DES in ECB mode. Repeated blocks of plaintext all encrypt to the same ciphertext, leaving the image quite recognisable.
+<img src="images/howToNotEncryptImages.png">
+
+
+### Cipher block chaining
+
+Most commercial applications which encrypt more than one block used to use cipher block chaining, or CBC, mode. Like ECB, this was one of the original modes of operation standardised with DES. In it, we exclusive-or the previous block of ciphertext to the current block of plaintext before encryption 
+
+This mode disguises patterns in the plaintext: the encryption of each block depends on all the previous blocks. The input initialisation vector (IV) ensures that stereotyped plaintext message headers won't leak information by encrypting to identical ciphertexts, just as with a stream cipher.
+
+
+#
+
 
 ## Modern Cyphers
 
@@ -149,6 +227,8 @@ Concerning Their key:
 * Asymetric Cyphers
 
 <img src="images/ModernCypher.png">
+
+<br>
 
 ## Symetric Block Cyphers
 Usual Approaches
