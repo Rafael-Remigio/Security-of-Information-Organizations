@@ -77,3 +77,80 @@ Another asymmetric application of cryptography is the digital signature. The ide
 #
 
 ## Security Models
+
+Security models seek to formalise the idea that a cipher is “good”
+
+**Model of perfect secrecy**: given any ciphertext, all possible plaintexts of that length are equally likely. The best forgery attack on it is a random guess, whose probability of success can be made as low as we want by choosing a long enough tag.
+
+**Model of concrete security**: where we want to know how much actual work an adversary has to do.
+
+**The standard model**  is about ***indistinguishability***. The model of computation in which the adversary is only limited by the amount of time and computational power available. Cryptographic schemes are usually based on complexity assumptions, which state that some problems, such as factorization, cannot be solved in polynomial time. Schemes that can be proven secure using only complexity assumptions are said to be secure in the standard model.
+
+**The random oracle model** is a variation of the standart model. A random oracle is an oracle that responds to every unique query with a (truly) random response chosen uniformly from its output domain. If a query is repeated, it responds the same way every time that query is submitted. If the answer exists, it returns it, if the answer does not exist, it generates a random one.
+
+#
+## Properties of Random Functions and PseudoRandom Functions
+
+**Random functions are our model for cryptographic Hash functions.**
+
+```A pseudorandom function will also be a one-way function, provided there are too many possible outputs for the opponent to guess an input that has a desired target output by chance. This means choosing  so that the opponent can't do anything near  computations. If we claim, for example, that SHA256 is a pseudorandom function, then we're saying that there's no practical way to find an input that hashes to a given 256-bit value, unless you knew it already and used it to compute that value.```
+
+* The first main property of a random function is one-wayness.
+
+* A second property of pseudorandom functions is that the output will not give any information at all about even part of the input. 
+
+* A third property of pseudorandom functions with sufficiently long outputs is that it is hard to find collisions. (actually kinda hard, see the [Birthday Paradox](https://en.wikipedia.org/wiki/Birthday_problem)). Historically, the two most common hash functions have been MD5, which has a 128-bit output and will thus require at most  computations to break, and SHA1 with a 160-bit output and a work factor for the cryptanalyst of at most . However, collision search gives at best an upper bound on the strength of a hash function, and both these particular functions have turned out to be disappointing. Nowaday the standart is SHA-256
+
+#
+
+## Theoretical Security vs Pratical Security
+
+
+One-time pad systems are a close fit for our theoretical model, except in that they are used to secure communications across space rather than time: the two communicating parties have shared a copy of a keystream in advance.
+
+```A real problem with keystream generators is to prevent the same keystream being used more than once, whether to encrypt more than one backup tape or to encrypt more than one message sent on a communications channel. During World War II, the amount of Russian diplomatic traffic exceeded the quantity of one-time tape they had distributed in advance to their embassies, so it was reused. But if  and , then the opponent can combine the two ciphertexts to get a combination of two messages: , and if the messages  have enough redundancy then they can be recovered. Text messages do in fact contain enough redundancy for much to be recovered; in the case of the Russian traffic this led to the Venona project in which the US and UK decrypted large amounts of wartime Russian traffic from 1943 onwards and broke up a number of Russian spy rings. In the words of one former NSA chief scientist, it became a “two-time tape”.```
+
+The normal engineering practice is to have not just a key but also a **seed** (also known as an **initialisation vector** or IV) so we start the keystream at a different place each time. The seed  may be a sequence number, or generated from a protocol in a more complex way. 
+
+## Pratical Security
+* Security is measured by the computational complexity of break-in attacks
+* Security bounds are also taken into consideration
+    * Cost of cryptanalysis
+    * Availability of cryptanalisis infra-structure
+    * Lifetime of cipher Text
+
+
+### 5 Shannon Criteria of Cryptography
+* The ammount of offered secrecy -> key length
+* Complexity of key selection -> key generation, detection of weak keys
+* Implementing simplicity
+* Error Propagation (important for noise channels, radio and such)
+* Dimension of ciphertexts
+
+
+### In cryptography always assume the worst case to ensure more security
+* Cryptanalyst know the algorithm (the security is in the key)
+* Cryptanalyst know the samples produced (cryptograms are not secret, they have the hashes)
+* Cryptanalyst partially or fully know the plaintext that generate the cypher
+
+
+
+
+# 
+
+## Modern Cyphers
+
+Concerning Operations:
+* Block Cyphers
+* Stream Cyphers
+
+Concerning Their key:
+* Symetric Cyphers
+* Asymetric Cyphers
+
+<img src="images/ModernCypher.png">
+
+## Symetric Block Cyphers
+Usual Approaches
+* Large bit blocks
+* **Difusion** and **Confusion**
