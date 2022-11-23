@@ -212,6 +212,7 @@ Most commercial applications which encrypt more than one block used to use ciphe
 
 This mode disguises patterns in the plaintext: the encryption of each block depends on all the previous blocks. The input initialisation vector (IV) ensures that stereotyped plaintext message headers won't leak information by encrypting to identical ciphertexts, just as with a stream cipher.
 
+<img src="images/CypherBlockChaining.png">
 
 #
 
