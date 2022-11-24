@@ -262,3 +262,4 @@ Step 7: 9 is the shared secret.
 ```
 ### Security Threat of the Diffie-Hellman
 
+With the Diffie-Hellman protocol there is the possibility of a middleperson attack. Charlie intercepts Alice's message to Bob and replies to it; at the same time, he initiates a key exchange with Bob, pretending to be Alice. He ends up with a key  which he shares with Alice, and another key  which he shares with Bob. So long as he continues to sit in the middle of the network and translate the messages between them, they may have a hard time detecting that their communications are compromised. The usual solution is to authenticate transient keys, and there are various possibilities.
