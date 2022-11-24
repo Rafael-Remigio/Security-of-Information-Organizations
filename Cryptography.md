@@ -125,6 +125,8 @@ In the general case we do not need message recovery; the message to be signed ma
 
 <img src="images/digitalSignature.png">
 
+<img src="images/digitalSignature_2.png">
+
 #
 ## Theoretical Security vs Pratical Security
 
@@ -279,6 +281,8 @@ With the Diffie-Hellman protocol there is the possibility of a middleperson atta
 
 Hybrid cryptosystem is one which combines the convenience of a public-key cryptosystem with the efficiency of a symmetric-key cryptosystem
 
+Public key algorithms are useful only for specialized tasks because they are very slow. A public key encryption can take 10,000 times as long to perform as a symmetric encryption because the underlying modular exponentiation depends on multiplication and division, which are inherently slower than the bit operations (addition, exclusive OR, substitution, and shifting) on which symmetric algorithms are based. For this reason, symmetric encryption is the cryptographers' “work horse,” and public key encryption is reserved for specialized, infrequent uses, where slow operation is not a continuing problem.
+
 
 To encrypt a message addressed to Alice in a hybrid cryptosystem, Bob does the following:
 
@@ -315,4 +319,51 @@ Encrypt-then-Mac: Mac is computed from cryptogram
 
 #
 
-## Elliptic curve cryptography
+## Elliptic curve cryptography -> [Computerphile Video](https://www.youtube.com/watch?v=nybVFJVXbww)
+
+We can Generate PseudoRandom numbers and encrypt using Elliptic curve cryptography. The biggest diference is the non-usage of hashFunctions wich in a way gives as more security as some HashFunctions over the years have shown exploits
+
+Discrete logarithms and their analogues exist in many other mathematical structures. Elliptic curve cryptography uses discrete logarithms on an elliptic curve – a curve given by an equation like . These curves have the property that you can define an addition operation on them and the resulting Mordell group can be used for cryptography.
+
+Problems with Eliptic Curves:
+* First is Performance, they are much slower than normal hashFunctions.
+* The number of bits was very short
+* **A Back Door** was possible (thank you CIA)
+
+
+#
+
+## Digest and Hash Generation from Keys Problems
+
+We need to sometimes generated hashes from a user key like a password or a pin, or a username. Problems with this:
+
+* Keys are not of fixed length, and some algorithms require fixed length
+* Diferent Sources (pins, passwords, secrets)
+* original source has low entropy; People use the same passwords or don't use random keys.
+* If two people have the same password the hash should still be different (this is impossible with one way hash function unless we use Salt)
+
+Ways to solver this:
+* passwords must be Stronger(adding other kinds of characters), this will add a lot of complexity to brute force 
+* Increasing size of passwords
+* Usage of Salt (random string of bits that is used in the hash, this can be stored in plaintext, just makes 2 equal passwords have different hashes)
+* One way functions 
+* 
+
+[Computerphile Video on Hashing and Salt](https://www.youtube.com/watch?v=8ZtInClXe1Q)
+
+
+# 
+
+## How strong are asymmetric cryptographic primitives and Quantum Computing
+```
+
+When I wrote the first edition of this book in 2000, the number field sieve had been used to attack keys up to 512 bits, a task comparable in difficulty to keysearch on 56-bit DES keys; by the time I rewrote this chapter for the second edition in 2007, 64-bit symmetric keys had been brute-forced, and the 663-bit challenge number RSA-200 had been factored. By the third edition in 2019, bitcoin miners are finding 68-bit hash collisions every ten minutes, RSA-768 has been factored and Ed Snowden has as good as told us that the NSA can do discrete logs for a 1024-bit prime modulus.
+
+There has been much research into quantum computers – devices that perform a large number of computations simultaneously using superposed quantum states. Peter Shor has shown that if a sufficiently large quantum computer could be built, then both factoring and discrete logarithm computations will become easy. So far only very small quantum devices have been built; although there are occasional claims of ‘quantum supremacy’ – of a quantum computer performing a task sufficiently faster than a conventional one to convince us that quantum superposition or entanglement is doing any real work – they seem to lead nowhere. I am sceptical (as are many physicists) about whether the technology will ever threaten real systems. I am even more sceptical about the value of quantum cryptography; it may be able to re-key a line encryption device that uses AES for bulk encryption on a single uninterrupted fibre run, but we already know how to do that.
+
+
+There is a whole community of physicists working on emergent quantum mechanics – the idea that to make progress beyond the Standard Model, and to reconcile the apparent conflict between quantum mechanics and general relativity, we may need to look at things differently. Meantime, if anyone claims their system is secure ‘because quantum mechanics’ then scepticism may be in order.
+
+If quantum computers ever work, we have other ‘post-quantum’ algorithms ready to go, for which quantum computers give no obvious advantage. In 2020, NIST began the third round of public review of submissions for the Post-Quantum Cryptography Standardization Process. The 65 initial submissions have been cut to 15 through two rounds of review12. One or more algorithms will now be chosen and standardised, so ciphersuites using them could be dropped into protocols such as TLS as upgrades. Many protocols in use could even be redesigned to use variants on Kerberos. If elliptic logarithms become easy, we have these resources and can also fall back to discrete logs in prime fields, or to RSA. But if elliptic logs become easy, bitcoins will become trivial to forge, and the cryptocurrency ecosystem would probably collapse, putting an end to the immensely wasteful mining operations I describe in section 20.7. So mathematicians who care about the future of the planet might do worse than to study the elliptic logarithm problem.
+
+```
