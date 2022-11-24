@@ -216,22 +216,49 @@ This mode disguises patterns in the plaintext: the encryption of each block depe
 
 #
 
+## Asymetric Block Ciphers
 
-## Modern Cyphers
+Use Key Pairs 
+* One Private Key -> Personal not Tranmissable
+* One Public Key -> Available to all
 
-Concerning Operations:
-* Block Cyphers
-* Stream Cyphers
+Allows **Confidentiality without previous exchange of secrets** and **Authentication**(Digital Signature)
 
-Concerning Their key:
-* Symetric Cyphers
-* Asymetric Cyphers
+**Advantage**
+* N peers requiring pairwise, secret interaction only need N key pairs
 
-<img src="images/ModernCypher.png">
+**Disavantages**
+* It usually has a very bad performance
 
-<br>
+**Problems**
+* Distribution of public keys
+* Keys must have a lifetime and expire
 
-## Symetric Block Cyphers
-Usual Approaches
-* Large bit blocks
-* **Difusion** and **Confusion**
+
+### Diffie-Hellman key establishment
+
+```
+
+Step 1: Alice and Bob get public numbers P = 23, G = 9
+
+Step 2: Alice selected a private key a = 4 and
+        Bob selected a private key b = 3
+
+Step 3: Alice and Bob compute public values
+Alice:    x =(9^4 mod 23) = (6561 mod 23) = 6
+        Bob:    y = (9^3 mod 23) = (729 mod 23)  = 16
+
+Step 4: Alice and Bob exchange public numbers
+
+Step 5: Alice receives public key y =16 and
+        Bob receives public key x = 6
+
+Step 6: Alice and Bob compute symmetric keys
+        Alice:  ka = y^a mod p = 65536 mod 23 = 9
+        Bob:    kb = x^b mod p = 216 mod 23 = 9
+
+Step 7: 9 is the shared secret.
+
+```
+### Security Threat of the Diffie-Hellman
+
