@@ -121,6 +121,8 @@ Formally, a signature scheme, **like a public key encryption scheme**, has a key
 In the general case we do not need message recovery; the message to be signed may be of arbitrary length, so we first pass it through a hash function and then sign the hash value. We need the hash function to be not just one-way, but also collision resistant.
 ```
 
+<img src="images/digitalSignature.png">
+
 #
 ## Theoretical Security vs Pratical Security
 
@@ -263,3 +265,52 @@ Step 7: 9 is the shared secret.
 ### Security Threat of the Diffie-Hellman
 
 With the Diffie-Hellman protocol there is the possibility of a middleperson attack. Charlie intercepts Alice's message to Bob and replies to it; at the same time, he initiates a key exchange with Bob, pretending to be Alice. He ends up with a key  which he shares with Alice, and another key  which he shares with Bob. So long as he continues to sit in the middle of the network and translate the messages between them, they may have a hard time detecting that their communications are compromised. The usual solution is to authenticate transient keys, and there are various possibilities.
+
+
+<img src="images/MITM-Diffie-Hellman.png">
+
+<br>
+
+#
+
+## Hybrid cryptosystem
+
+Hybrid cryptosystem is one which combines the convenience of a public-key cryptosystem with the efficiency of a symmetric-key cryptosystem
+
+
+To encrypt a message addressed to Alice in a hybrid cryptosystem, Bob does the following:
+
+```
+1-Obtains Alice's public key.
+2-Generates a fresh symmetric key for the data encapsulation scheme.
+3-Encrypts the message under the data encapsulation scheme, using the symmetric key just generated.
+4-Encrypts the symmetric key under the key encapsulation scheme, using Alice's public key.
+5-Sends both of these ciphertexts to Alice.
+```
+
+To decrypt this hybrid ciphertext, Alice does the following:
+
+```
+Uses her private key to decrypt the symmetric key contained in the key encapsulation segment.
+Uses this symmetric key to decrypt the message contained in the data encapsulation segment.
+```
+
+
+#
+
+## Hash Functions
+
+**A message digest** is a fixed size numeric representation of the contents of a message, computed by a hash function. Use for digital signatures
+
+**Message Integrity Code** ->
+Proides the capability to detect changes by in comunication. If the digest is not the same, something is different in the file
+
+**Message Authentication Code** -> Is a cryptographic checksum on data that uses a session key to detect both accidental and intentional modifications of the data. A MAC requires two inputs: a message and a secret key known only to the originator of the message and its intended recipient.
+
+### Encryption + Authentication 
+Encrypt-then-Mac: Mac is computed from cryptogram
+
+
+#
+
+## Elliptic curve cryptography
