@@ -28,3 +28,7 @@ Four applications of encryption: cryptographic hash functions, key exchange, dig
 
 ## Goal
 * Key pais generation
+
+
+
+certificates CRL
